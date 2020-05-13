@@ -1,0 +1,27 @@
+---
+# tasks file for run
+
+- ec2_metadata_facts:
+  register: ec2_facts
+- name: Space
+  command: "ansible all -m setup -a 'filter=ansible_*_mb'"
+  register: Size
+  run_once: true
+- name: debug
+  debug: var=ansible_ec2_public_ipv4
+- name: debug
+  debug: var=ansible_ec2_local_ipv4
+- name: id
+  debug: var=ansible_ec2_instance_id
+- name: size
+  debug: var=ansible_memfree_mb
+- name: total size
+  debug: var=ansible_memtotal_mb
+- name: Pwd
+  debug: var=ansible_env.PWD
+- name: Copy temp
+  template:
+    src: index.j2
+    dest: /var/www/html/output.html
+    mode: '0644'
+
